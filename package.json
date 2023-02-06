@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "parcel-bundler": "^1.12.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "scripts": {
+    "start": "parcel index.html"
+  },
+  "name": "radiotasty.com",
+  "version": "1.0.0",
+  "description": "The radiotasty.com homepage",
+  "main": "index.js",
+  "repository": "https://github.com/mik3y/radiotasty.git",
+  "author": "mike wakerly <opensource@hoho.com>",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@babel/core": "^7.20.12"
+  }
+}

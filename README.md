@@ -20,3 +20,13 @@ $ pre-commit install
 $ yarn start
 Server running at http://localhost:1234
 ```
+
+### Production deploy
+
+The site is deployed to Cloudflare Pages. It is automatically rebuilt and re-deployed on every merge to the `main` branch.
+
+You can run the same command to test the prod build:
+
+```
+$ yarn build-prod
+```

@@ -17,6 +17,7 @@
   "author": "mike wakerly <opensource@hoho.com>",
   "license": "UNLICENSED",
   "devDependencies": {
-    "@babel/core": "^7.20.12"
+    "@babel/core": "^7.20.12",
+    "sass": "^1.58.0"
   }
 }

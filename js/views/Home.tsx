@@ -1,10 +1,9 @@
-import React from 'react';
+import Logo from "../../static/img/radio-tasty-logo.png";
+import StreamPlayer from "../components/StreamPlayer";
+import "./Home.scss";
 
-import Logo from '../../static/img/radio-tasty-logo.png';
-import StreamPlayer from '../components/StreamPlayer';
-import './Home.scss';
-
-const TASTY_STREAM_URL = 'https://listen.radiotasty.com/public/radio_tasty/embed?theme=dark';
+const TASTY_STREAM_URL =
+  "https://listen.radiotasty.com/public/radio_tasty/embed?theme=dark";
 
 const HomeView = () => {
   return (

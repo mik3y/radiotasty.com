@@ -4,7 +4,6 @@ const StreamPlayer = ({ streamUrl }) => {
       title="Radio Tasty media player"
       src={streamUrl}
       frameBorder={0}
-      allowTransparency={true}
       style={{ width: "100%", minHeight: "150px", border: 0 }}
     />
   );

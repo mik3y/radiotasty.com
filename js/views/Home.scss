@@ -1,8 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+body {
+  font-family: 'Oxanium Variable', system-ui;
+}
+
 .home-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   .stream-player {
     max-width: 600px;
+  }
+}
+
+.cta-link {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &:hover {
+      span:not(.arrow) {
+        text-decoration: underline dotted;
+      }
+    }
+  }
+
+  .arrow {
+    animation: pulse 2s infinite;
+  }
+
+}
+
+@keyframes pulse {
+  0% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(4px);
+  }
+
+  100% {
+    transform: translateX(0);
   }
 }

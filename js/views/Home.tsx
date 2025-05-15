@@ -12,6 +12,12 @@ const HomeView = () => {
       <div className="stream-player">
         <StreamPlayer streamUrl={TASTY_STREAM_URL} />
       </div>
+      <div className="cta-link">
+        <a href="https://mailchi.mp/a0216ed0e271/newsletter-signup">
+          <span>Be the tastiest: Join our mailing list</span>
+          <span className="arrow">→</span>
+        </a>
+      </div>
     </div>
   );
 };

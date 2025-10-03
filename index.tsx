@@ -1,7 +1,9 @@
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 
-import App from "./js/App";
+import App from "./src/App";
 import "@fontsource-variable/oxanium";
 
 const mountNode = document.getElementById("app");
-ReactDOM.render(<App />, mountNode);
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+const root = createRoot(mountNode!);
+root.render(<App />);

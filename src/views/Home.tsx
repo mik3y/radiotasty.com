@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import Logo from "../../static/img/radio-tasty-logo.png";
 import StreamPlayer from "../components/StreamPlayer";
 import "./Home.scss";
@@ -17,6 +18,11 @@ const HomeView = () => {
           <span>Be the tastiest: Join our mailing list</span>
           <span className="arrow">→</span>
         </a>
+      </div>
+      <div className="nav-links">
+        <Link to="/about" className="about-link">
+          About
+        </Link>
       </div>
     </div>
   );

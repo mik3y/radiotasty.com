@@ -1,3 +1,4 @@
+import { Box, Container } from "@mui/material";
 import {
   Outlet,
   createRootRoute,
@@ -11,11 +12,19 @@ import HomeView from "./views/Home";
 const RootLayout = () => {
   return (
     <>
-      <div id="app">
-        <Outlet />
-      </div>
-      <div className="overlay" />
-      <div className="overlay glitch" />
+      <Box sx={{ minHeight: "100vh" }}>
+        <Container
+          maxWidth={false}
+          sx={{ py: 0, position: "relative", zIndex: 1 }}
+        >
+          <Outlet />
+        </Container>
+      </Box>
+      <div className="overlay" style={{ position: "fixed", zIndex: -1 }} />
+      <div
+        className="overlay glitch"
+        style={{ position: "fixed", zIndex: -1 }}
+      />
       <TanStackRouterDevtools />
     </>
   );

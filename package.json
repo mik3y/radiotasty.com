@@ -2,12 +2,15 @@
   "dependencies": {
     "@babel/preset-env": "^7.28.3",
     "@babel/preset-react": "^7.27.1",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@fontsource-variable/oxanium": "^5.2.8",
+    "@mui/material": "^7.3.4",
     "@tanstack/react-router": "^1.132.33",
     "@tanstack/react-router-devtools": "^1.132.33",
     "parcel-bundler": "^1.12.5",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "type": "module",
   "scripts": {
@@ -23,12 +26,12 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "@babel/core": "^7.28.4",
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.2.5",
     "@tanstack/router-plugin": "^1.132.33",
     "@types/react": "^19.2.0",
-    "@vitejs/plugin-legacy": "^6.1.1",
-    "@vitejs/plugin-react": "^4.7.0",
+    "@vitejs/plugin-legacy": "^7.2.1",
+    "@vitejs/plugin-react": "^5.0.4",
     "sass": "^1.93.2",
-    "vite": "^6.3.6"
+    "vite": "^7.1.9"
   }
 }

@@ -82,8 +82,14 @@ const AboutView = () => {
                   bigger and more collective&mdash;quietly came to life.
                 </p>
                 <p>
-                  We started regular programming in early 2025. We are growing
-                  up fast!
+                  We originally aired a back catalog of recorded DJ mixes from
+                  Tasty DJs and parties. But our goal was always bigger: to play
+                  music <i>live</i> here, for eachother. Be <i>radio</i>.
+                </p>
+                <p>
+                  In early 2025, we started regular live programming, and added
+                  many new DJs to the list. We are growing, and growing up,
+                  fast!
                 </p>
                 <p>
                   We were born out of <a href="https://tastysf.org">TastySF</a>,

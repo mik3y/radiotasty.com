@@ -32,40 +32,37 @@ const getSampleRate = (analyser: AnalyserNode): number => {
   return analyser.context.sampleRate || 44100;
 };
 
-// Convert frequency (Hz) to FFT bin index
-const freqToBin = (
-  freq: number,
-  fftSize: number,
-  sampleRate: number,
-): number => {
-  return Math.round((freq * fftSize) / sampleRate);
-};
-
 // Creates logarithmically-spaced frequency band boundaries
 // Maps to useful musical range (~60Hz to ~14kHz)
+// Returns an array of bin indices that serve as boundaries between bands
+// For N bars, returns N+1 boundaries where band i spans [boundaries[i], boundaries[i+1])
 const getLogFrequencyBands = (
   barCount: number,
   fftSize: number,
   sampleRate: number,
-) => {
-  const bands: Array<{ start: number; end: number }> = [];
+): number[] => {
   const minFreq = 60; // Low bass
   const maxFreq = 14000; // Upper treble
   const logMin = Math.log(minFreq);
   const logMax = Math.log(maxFreq);
   const logRange = logMax - logMin;
 
-  for (let i = 0; i < barCount; i++) {
-    const startFreq = Math.exp(logMin + (i / barCount) * logRange);
-    const endFreq = Math.exp(logMin + ((i + 1) / barCount) * logRange);
-
-    bands.push({
-      start: freqToBin(startFreq, fftSize, sampleRate),
-      end: freqToBin(endFreq, fftSize, sampleRate),
-    });
+  // Calculate N+1 boundary points
+  const boundaries: number[] = [];
+  for (let i = 0; i <= barCount; i++) {
+    const freq = Math.exp(logMin + (i / barCount) * logRange);
+    const bin = Math.round((freq * fftSize) / sampleRate);
+    boundaries.push(bin);
   }
 
-  return bands;
+  // Ensure boundaries are monotonically increasing (each at least 1 more than previous)
+  for (let i = 1; i < boundaries.length; i++) {
+    if (boundaries[i] <= boundaries[i - 1]) {
+      boundaries[i] = boundaries[i - 1] + 1;
+    }
+  }
+
+  return boundaries;
 };
 
 // Gets the average value for a frequency band
@@ -105,7 +102,7 @@ const AudioVisualizer = ({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let bands: Array<{ start: number; end: number }> | null = null;
+    let boundaries: number[] | null = null;
 
     const draw = () => {
       const analyser = getAnalyser();
@@ -119,11 +116,11 @@ const AudioVisualizer = ({
       const dataArray = new Uint8Array(bufferLength);
       analyser.getByteFrequencyData(dataArray);
 
-      // Initialize bands on first frame
-      if (!bands) {
+      // Initialize boundaries on first frame
+      if (!boundaries) {
         const sampleRate = getSampleRate(analyser);
         const fftSize = analyser.fftSize;
-        bands = getLogFrequencyBands(barCount, fftSize, sampleRate);
+        boundaries = getLogFrequencyBands(barCount, fftSize, sampleRate);
       }
 
       const width = canvas.width;
@@ -134,8 +131,9 @@ const AudioVisualizer = ({
       ctx.clearRect(0, 0, width, canvasHeight);
 
       for (let i = 0; i < barCount; i++) {
-        const band = bands[i];
-        const value = getBandValue(dataArray, band.start, band.end);
+        const start = boundaries[i];
+        const end = boundaries[i + 1] - 1; // Exclusive end, so subtract 1 for inclusive range
+        const value = getBandValue(dataArray, start, end);
         const barHeight = (value / 255) * canvasHeight;
 
         const colorIndex = Math.floor((i / barCount) * COLORS.length);

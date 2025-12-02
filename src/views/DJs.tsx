@@ -25,6 +25,124 @@ import {
   RadioCultClient,
 } from "../lib/radiocult";
 
+const RECURRING_DJ_SLUGS = new Set(["herbie-monncuso", "wakebot"]);
+
+const isRecurringDJ = (artist: Artist): boolean => {
+  const slug = artist.slug || artist.id;
+  return RECURRING_DJ_SLUGS.has(slug);
+};
+
+interface DJCardProps {
+  artist: Artist;
+  isLarge?: boolean;
+}
+
+const DJCard = ({ artist, isLarge = false }: DJCardProps) => (
+  <Card
+    sx={{
+      height: "100%",
+      backgroundColor: "rgba(0, 0, 0, 0.4)",
+      backdropFilter: "blur(10px)",
+      transition: "transform 0.2s, box-shadow 0.2s",
+      "&:hover": {
+        transform: "translateY(-4px)",
+        boxShadow: "0 8px 24px rgba(255, 0, 110, 0.3)",
+      },
+    }}
+  >
+    <CardActionArea
+      component={Link}
+      to="/djs/$slug"
+      params={{ slug: artist.slug || artist.id }}
+      sx={{ height: "100%" }}
+    >
+      {artist.logo && (
+        <CardMedia
+          component="img"
+          height={isLarge ? 250 : 200}
+          image={artist.logo["512x512"]}
+          alt={artist.name}
+          sx={{ objectFit: "cover" }}
+        />
+      )}
+      <CardContent sx={{ textAlign: "center" }}>
+        <Typography
+          variant={isLarge ? "h5" : "h6"}
+          component="h2"
+          sx={{
+            fontWeight: 600,
+            color: "#fff",
+            mb: getTipTapPlainText(artist.description) ? 1 : 0,
+          }}
+        >
+          {artist.name}
+        </Typography>
+        {getTipTapPlainText(artist.description) && (
+          <Typography
+            variant="body2"
+            sx={{
+              color: "rgba(255, 255, 255, 0.7)",
+              display: "-webkit-box",
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              mb: 1,
+            }}
+          >
+            {getTipTapPlainText(artist.description)}
+          </Typography>
+        )}
+        {(artist.socials.instagramHandle || artist.socials.soundcloud) && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              gap: 1,
+              mt: 1,
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {artist.socials.instagramHandle && (
+              <IconButton
+                component="a"
+                href={`https://instagram.com/${artist.socials.instagramHandle}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                size="small"
+                sx={{
+                  color: "rgba(255, 255, 255, 0.7)",
+                  "&:hover": { color: "#E1306C" },
+                }}
+              >
+                <FontAwesomeIcon icon={faInstagram} />
+              </IconButton>
+            )}
+            {artist.socials.soundcloud && (
+              <IconButton
+                component="a"
+                href={
+                  artist.socials.soundcloud.startsWith("http")
+                    ? artist.socials.soundcloud
+                    : `https://soundcloud.com/${artist.socials.soundcloud}`
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                size="small"
+                sx={{
+                  color: "rgba(255, 255, 255, 0.7)",
+                  "&:hover": { color: "#FF5500" },
+                }}
+              >
+                <FontAwesomeIcon icon={faSoundcloud} />
+              </IconButton>
+            )}
+          </Box>
+        )}
+      </CardContent>
+    </CardActionArea>
+  </Card>
+);
+
 const DJsView = () => {
   const [artists, setArtists] = useState<Artist[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,6 +157,11 @@ const DJsView = () => {
     client
       .getArtists()
       .then((artists) => {
+        // Shuffle using Fisher-Yates algorithm
+        for (let i = artists.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [artists[i], artists[j]] = [artists[j], artists[i]];
+        }
         setArtists(artists);
         setLoading(false);
       })
@@ -47,6 +170,9 @@ const DJsView = () => {
         setLoading(false);
       });
   }, []);
+
+  const recurringDJs = artists.filter(isRecurringDJ);
+  const ensembleDJs = artists.filter((artist) => !isRecurringDJ(artist));
 
   return (
     <>
@@ -84,116 +210,44 @@ const DJsView = () => {
         )}
 
         {!loading && !error && (
-          <Grid container spacing={3} justifyContent="center">
-            {artists.map((artist) => (
-              <Grid key={artist.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                <Card
+          <>
+            {recurringDJs.length > 0 && (
+              <Grid container spacing={3} justifyContent="center">
+                {recurringDJs.map((artist) => (
+                  <Grid key={artist.id} size={{ xs: 12, sm: 6, md: 4 }}>
+                    <DJCard artist={artist} isLarge />
+                  </Grid>
+                ))}
+              </Grid>
+            )}
+
+            {ensembleDJs.length > 0 && (
+              <>
+                <Typography
+                  variant="h5"
                   sx={{
-                    height: "100%",
-                    backgroundColor: "rgba(0, 0, 0, 0.4)",
-                    backdropFilter: "blur(10px)",
-                    transition: "transform 0.2s, box-shadow 0.2s",
-                    "&:hover": {
-                      transform: "translateY(-4px)",
-                      boxShadow: "0 8px 24px rgba(255, 0, 110, 0.3)",
-                    },
+                    mt: 6,
+                    mb: 3,
+                    textAlign: "center",
+                    color: "rgba(255, 255, 255, 0.6)",
+                    fontWeight: 500,
                   }}
                 >
-                  <CardActionArea
-                    component={Link}
-                    to="/djs/$slug"
-                    params={{ slug: artist.slug || artist.id }}
-                    sx={{ height: "100%" }}
-                  >
-                    {artist.logo && (
-                      <CardMedia
-                        component="img"
-                        height="200"
-                        image={artist.logo["512x512"]}
-                        alt={artist.name}
-                        sx={{ objectFit: "cover" }}
-                      />
-                    )}
-                    <CardContent sx={{ textAlign: "center" }}>
-                      <Typography
-                        variant="h6"
-                        component="h2"
-                        sx={{
-                          fontWeight: 600,
-                          color: "#fff",
-                          mb: getTipTapPlainText(artist.description) ? 1 : 0,
-                        }}
-                      >
-                        {artist.name}
-                      </Typography>
-                      {getTipTapPlainText(artist.description) && (
-                        <Typography
-                          variant="body2"
-                          sx={{
-                            color: "rgba(255, 255, 255, 0.7)",
-                            display: "-webkit-box",
-                            WebkitLineClamp: 3,
-                            WebkitBoxOrient: "vertical",
-                            overflow: "hidden",
-                            mb: 1,
-                          }}
-                        >
-                          {getTipTapPlainText(artist.description)}
-                        </Typography>
-                      )}
-                      {(artist.socials.instagramHandle ||
-                        artist.socials.soundcloud) && (
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            gap: 1,
-                            mt: 1,
-                          }}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {artist.socials.instagramHandle && (
-                            <IconButton
-                              component="a"
-                              href={`https://instagram.com/${artist.socials.instagramHandle}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              size="small"
-                              sx={{
-                                color: "rgba(255, 255, 255, 0.7)",
-                                "&:hover": { color: "#E1306C" },
-                              }}
-                            >
-                              <FontAwesomeIcon icon={faInstagram} />
-                            </IconButton>
-                          )}
-                          {artist.socials.soundcloud && (
-                            <IconButton
-                              component="a"
-                              href={
-                                artist.socials.soundcloud.startsWith("http")
-                                  ? artist.socials.soundcloud
-                                  : `https://soundcloud.com/${artist.socials.soundcloud}`
-                              }
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              size="small"
-                              sx={{
-                                color: "rgba(255, 255, 255, 0.7)",
-                                "&:hover": { color: "#FF5500" },
-                              }}
-                            >
-                              <FontAwesomeIcon icon={faSoundcloud} />
-                            </IconButton>
-                          )}
-                        </Box>
-                      )}
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+                  Ensemble Players
+                </Typography>
+                <Grid container spacing={3} justifyContent="center">
+                  {ensembleDJs.map((artist) => (
+                    <Grid
+                      key={artist.id}
+                      size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                    >
+                      <DJCard artist={artist} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </>
+            )}
+          </>
         )}
 
         <Box sx={{ mt: 6, textAlign: "center" }}>

@@ -53,17 +53,74 @@ interface AzuracastNowPlayingResponse {
       album?: string;
       art?: string;
     };
+    elapsed?: number;
+    duration?: number;
+  };
+}
+
+interface AzuracastWebSocketMessage {
+  connect?: {
+    time?: number;
+    subs?: Record<
+      string,
+      {
+        publications?: Array<{
+          data: { np: AzuracastNowPlayingResponse };
+        }>;
+      }
+    >;
+  };
+  pub?: {
+    data: {
+      np: AzuracastNowPlayingResponse;
+    };
   };
 }
 
 const AZURACAST_POLL_INTERVAL_MS = 15000;
+const AZURACAST_WS_RECONNECT_DELAY_MS = 5000;
+
+const extractMetadataFromNowPlaying = (
+  data: AzuracastNowPlayingResponse,
+): StreamMetadata | null => {
+  const song = data.now_playing?.song;
+  if (!song) return null;
+
+  return {
+    title: song.title,
+    artist: song.artist,
+    album: song.album,
+    art: song.art,
+    elapsed: data.now_playing?.elapsed,
+    duration: data.now_playing?.duration,
+  };
+};
 
 const createAzuracastFetcher = (
   metadataUrl: string,
   onMetadata: (metadata: StreamMetadata) => void,
 ): MetadataFetcher => {
+  let socket: WebSocket | null = null;
   let intervalId: ReturnType<typeof setInterval> | null = null;
   let abortController: AbortController | null = null;
+  let reconnectTimeoutId: ReturnType<typeof setTimeout> | null = null;
+  let useWebSocket = true;
+  let isRunning = false;
+
+  // Derive WebSocket URL and station name from metadata URL
+  // metadataUrl format: https://listen.radiotasty.com/api/nowplaying/radio_tasty
+  const getWebSocketConfig = () => {
+    try {
+      const url = new URL(metadataUrl);
+      const pathParts = url.pathname.split("/");
+      const stationName = pathParts[pathParts.length - 1];
+      const wsProtocol = url.protocol === "https:" ? "wss:" : "ws:";
+      const wsUrl = `${wsProtocol}//${url.host}/api/live/nowplaying/websocket`;
+      return { wsUrl, stationName };
+    } catch {
+      return null;
+    }
+  };
 
   const fetchMetadata = async () => {
     abortController = new AbortController();
@@ -78,15 +135,9 @@ const createAzuracastFetcher = (
       }
 
       const data: AzuracastNowPlayingResponse = await response.json();
-      const song = data.now_playing?.song;
-
-      if (song) {
-        onMetadata({
-          title: song.title,
-          artist: song.artist,
-          album: song.album,
-          art: song.art,
-        });
+      const metadata = extractMetadataFromNowPlaying(data);
+      if (metadata) {
+        onMetadata(metadata);
       }
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") {
@@ -95,20 +146,131 @@ const createAzuracastFetcher = (
     }
   };
 
+  const startPolling = () => {
+    if (intervalId !== null) return;
+    fetchMetadata();
+    intervalId = setInterval(fetchMetadata, AZURACAST_POLL_INTERVAL_MS);
+  };
+
+  const stopPolling = () => {
+    if (intervalId !== null) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+    if (abortController) {
+      abortController.abort();
+      abortController = null;
+    }
+  };
+
+  const handleWebSocketMessage = (event: MessageEvent) => {
+    try {
+      const message: AzuracastWebSocketMessage = JSON.parse(event.data);
+
+      // Handle initial connection with cached data
+      if (message.connect?.subs) {
+        for (const subName in message.connect.subs) {
+          const sub = message.connect.subs[subName];
+          if (sub.publications && sub.publications.length > 0) {
+            const lastPublication =
+              sub.publications[sub.publications.length - 1];
+            const metadata = extractMetadataFromNowPlaying(
+              lastPublication.data.np,
+            );
+            if (metadata) {
+              onMetadata(metadata);
+            }
+          }
+        }
+      }
+
+      // Handle live updates
+      if (message.pub?.data?.np) {
+        const metadata = extractMetadataFromNowPlaying(message.pub.data.np);
+        if (metadata) {
+          onMetadata(metadata);
+        }
+      }
+    } catch {
+      // Ignore parse errors (e.g., empty ping messages)
+    }
+  };
+
+  const connectWebSocket = () => {
+    const config = getWebSocketConfig();
+    if (!config) {
+      useWebSocket = false;
+      startPolling();
+      return;
+    }
+
+    try {
+      socket = new WebSocket(config.wsUrl);
+
+      socket.onopen = () => {
+        // Subscribe to station updates
+        socket?.send(
+          JSON.stringify({
+            subs: {
+              [`station:${config.stationName}`]: { recover: true },
+            },
+          }),
+        );
+      };
+
+      socket.onmessage = handleWebSocketMessage;
+
+      socket.onerror = () => {
+        // WebSocket failed, fall back to polling
+        useWebSocket = false;
+        socket?.close();
+        socket = null;
+        startPolling();
+      };
+
+      socket.onclose = () => {
+        socket = null;
+        if (isRunning && useWebSocket) {
+          // Attempt to reconnect after a delay
+          reconnectTimeoutId = setTimeout(() => {
+            if (isRunning) {
+              connectWebSocket();
+            }
+          }, AZURACAST_WS_RECONNECT_DELAY_MS);
+        }
+      };
+    } catch {
+      // WebSocket construction failed, fall back to polling
+      useWebSocket = false;
+      startPolling();
+    }
+  };
+
   return {
     start: () => {
-      fetchMetadata();
-      intervalId = setInterval(fetchMetadata, AZURACAST_POLL_INTERVAL_MS);
+      if (isRunning) return;
+      isRunning = true;
+
+      if (useWebSocket) {
+        connectWebSocket();
+      } else {
+        startPolling();
+      }
     },
     stop: () => {
-      if (intervalId !== null) {
-        clearInterval(intervalId);
-        intervalId = null;
+      isRunning = false;
+
+      if (reconnectTimeoutId !== null) {
+        clearTimeout(reconnectTimeoutId);
+        reconnectTimeoutId = null;
       }
-      if (abortController) {
-        abortController.abort();
-        abortController = null;
+
+      if (socket) {
+        socket.close();
+        socket = null;
       }
+
+      stopPolling();
     },
   };
 };

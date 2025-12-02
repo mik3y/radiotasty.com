@@ -1,7 +1,26 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, type SxProps, type Theme } from "@mui/material";
 import { Link } from "@tanstack/react-router";
 
 import logo from "../img/radio-tasty-logo.png";
+
+const navLinks = [
+  { to: "/", label: "Home" },
+  { to: "/schedule", label: "Schedule" },
+  { to: "/djs", label: "DJs" },
+  { to: "/about", label: "About" },
+] as const;
+
+const navButtonSx: SxProps<Theme> = {
+  color: "rgba(255, 255, 255, 0.7)",
+  "&:hover": {
+    color: "rgba(255, 255, 255, 0.9)",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+  },
+  "&.active": {
+    color: "rgba(255, 255, 255, 1)",
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
+  },
+};
 
 const PageHeader = () => {
   return (
@@ -36,78 +55,17 @@ const PageHeader = () => {
         />
       </Link>
       <Box sx={{ display: "flex", gap: 2, justifyContent: "center" }}>
-        <Button
-          component={Link}
-          to="/"
-          color="inherit"
-          sx={{
-            color: "rgba(255, 255, 255, 0.7)",
-            "&:hover": {
-              color: "rgba(255, 255, 255, 0.9)",
-              backgroundColor: "rgba(255, 255, 255, 0.1)",
-            },
-            "&.active": {
-              color: "rgba(255, 255, 255, 1)",
-              backgroundColor: "rgba(255, 255, 255, 0.15)",
-            },
-          }}
-        >
-          Home
-        </Button>
-        <Button
-          component={Link}
-          to="/djs"
-          color="inherit"
-          sx={{
-            color: "rgba(255, 255, 255, 0.7)",
-            "&:hover": {
-              color: "rgba(255, 255, 255, 0.9)",
-              backgroundColor: "rgba(255, 255, 255, 0.1)",
-            },
-            "&.active": {
-              color: "rgba(255, 255, 255, 1)",
-              backgroundColor: "rgba(255, 255, 255, 0.15)",
-            },
-          }}
-        >
-          DJs
-        </Button>
-        <Button
-          component={Link}
-          to="/schedule"
-          color="inherit"
-          sx={{
-            color: "rgba(255, 255, 255, 0.7)",
-            "&:hover": {
-              color: "rgba(255, 255, 255, 0.9)",
-              backgroundColor: "rgba(255, 255, 255, 0.1)",
-            },
-            "&.active": {
-              color: "rgba(255, 255, 255, 1)",
-              backgroundColor: "rgba(255, 255, 255, 0.15)",
-            },
-          }}
-        >
-          Schedule
-        </Button>
-        <Button
-          component={Link}
-          to="/about"
-          color="inherit"
-          sx={{
-            color: "rgba(255, 255, 255, 0.7)",
-            "&:hover": {
-              color: "rgba(255, 255, 255, 0.9)",
-              backgroundColor: "rgba(255, 255, 255, 0.1)",
-            },
-            "&.active": {
-              color: "rgba(255, 255, 255, 1)",
-              backgroundColor: "rgba(255, 255, 255, 0.15)",
-            },
-          }}
-        >
-          About
-        </Button>
+        {navLinks.map(({ to, label }) => (
+          <Button
+            key={to}
+            component={Link}
+            to={to}
+            color="inherit"
+            sx={navButtonSx}
+          >
+            {label}
+          </Button>
+        ))}
       </Box>
     </div>
   );

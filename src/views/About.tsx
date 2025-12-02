@@ -1,4 +1,5 @@
 import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Link } from "@tanstack/react-router";
 
 import PageHeader from "../components/PageHeader";
 
@@ -92,15 +93,15 @@ const AboutView = () => {
                   many new DJs to the list. We are growing, and growing up,
                   fast!
                 </p>
-                <p>
-                  Radio Tasty was born out of{" "}
-                  <a href="https://tastysf.org">TastySF</a>, a San
-                  Francisco-based music &amp; arts collective that started in
-                  2005. More than a few (but by no means all) of our DJs come
-                  from Tasty.
-                </p>
               </FAQEntry>
               <FAQEntry title="Who is Radio Tasty?">
+                <p>
+                  Radio Tasty was born out of{" "}
+                  <a href="https://tastysf.org">Tasty</a>, a San Francisco-based
+                  music &amp; arts collective that got going in 2006. More than
+                  a few (but by no means all) of our DJs come from Tasty, and we
+                  continue to share a strong connection.
+                </p>
                 <p>
                   <a href="https://soundcloud.com/wakebot">@wakebot</a> started
                   the station with{" "}
@@ -114,10 +115,13 @@ const AboutView = () => {
                   was our first regular DJ.
                 </p>
                 <p>
-                  <b>Our DJs</b> are the heart of Radio Tasty, and their taste
-                  and diversity are what makes this worth anything&mdash;worth
-                  trying to be anything&mdash;at all. They are music lovers to
-                  the core, and they are here to share this love with you.
+                  <b>
+                    <Link to="/djs">Our DJs</Link>
+                  </b>{" "}
+                  are the heart of Radio Tasty, and their taste and diversity
+                  are what makes this worth anything&mdash;worth trying to be
+                  anything&mdash;at all. They are music lovers to the core, and
+                  they are here to share this love with you.
                 </p>
                 <p>
                   <b>Our listeners</b> share our love for music, and the joy of

@@ -195,6 +195,25 @@ const DJsView = () => {
             ))}
           </Grid>
         )}
+
+        <Box sx={{ mt: 6, textAlign: "center" }}>
+          <Typography
+            component={Link}
+            to="/djs/join"
+            sx={{
+              color: "rgba(255, 255, 255, 0.7)",
+              fontSize: "1.1rem",
+              textDecoration: "none",
+              transition: "color 0.2s",
+              fontWeight: 600,
+              "&:hover": {
+                color: "#ff006e",
+              },
+            }}
+          >
+            Got what it takes? Become the next Radio Tasty DJ &raquo;
+          </Typography>
+        </Box>
       </Box>
     </>
   );

@@ -104,7 +104,7 @@ const AboutView = () => {
                   <a href="https://soundcloud.com/wakebot">@wakebot</a> started
                   the station with{" "}
                   <a href="https://soundcloud.com/outofcontroller">
-                    @outofocontroller
+                    @outofcontroller
                   </a>
                   , and they continue to cosplay as Radio Station Managers.{" "}
                   <a href="https://soundcloud.com/alex01d">@Alexoid</a> created

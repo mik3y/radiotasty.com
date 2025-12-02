@@ -1,6 +1,8 @@
 import { Box, Button } from "@mui/material";
 import { Link } from "@tanstack/react-router";
 
+import logo from "../img/radio-tasty-logo.png";
+
 const PageHeader = () => {
   return (
     <div
@@ -20,7 +22,7 @@ const PageHeader = () => {
       <Link to="/" style={{ textDecoration: "none", marginBottom: "1rem" }}>
         <Box
           component="img"
-          src="/static/img/radio-tasty-logo.png"
+          src={logo}
           alt="Radio Tasty Logo"
           sx={{
             height: { xs: 80, sm: 120, md: 150 },

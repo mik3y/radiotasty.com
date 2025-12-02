@@ -35,11 +35,8 @@ const RootLayout = () => {
           <Outlet />
         </Container>
       </Box>
-      <div className="overlay" style={{ position: "fixed", zIndex: -1 }} />
-      <div
-        className="overlay glitch"
-        style={{ position: "fixed", zIndex: -1 }}
-      />
+      <div className="overlay" />
+      <div className="overlay glitch" />
       <TanStackRouterDevtools />
     </>
   );

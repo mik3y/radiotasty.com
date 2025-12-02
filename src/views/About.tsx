@@ -82,9 +82,10 @@ const AboutView = () => {
                   bigger and more collective&mdash;quietly came to life.
                 </p>
                 <p>
-                  We originally aired a back catalog of recorded DJ mixes from
-                  Tasty DJs and parties. But our goal was always bigger: to play
-                  music <i>live</i> here, for eachother. Be <i>radio</i>.
+                  We mostly aired a back catalog of recorded DJ mixes from Tasty
+                  DJs and parties, recordings which still fill our airtime when
+                  no DJ is live. But our goal was always bigger: to play music{" "}
+                  <i>live</i> here, for eachother. Be <i>radio</i>.
                 </p>
                 <p>
                   In early 2025, we started regular live programming, and added

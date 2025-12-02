@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
+import PageFooter from "./components/PageFooter";
 import StreamPlayer from "./components/StreamPlayer";
 import AboutView from "./views/About";
 import DJDetailView from "./views/DJDetail";
@@ -31,13 +32,14 @@ const RootLayout = () => {
       >
         <StreamPlayer fullWidth titlePrefix="" />
       </Paper>
-      <Box sx={{ minHeight: "100vh", pt: 8, pb: 8 }}>
+      <Box sx={{ minHeight: "100vh", pt: 8 }}>
         <Container
           maxWidth={false}
           sx={{ py: 0, position: "relative", zIndex: 1 }}
         >
           <Outlet />
         </Container>
+        <PageFooter />
       </Box>
       <div className="overlay" />
       <div className="overlay glitch" />

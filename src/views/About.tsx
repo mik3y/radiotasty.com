@@ -75,17 +75,17 @@ const AboutView = () => {
                 <p>We freakin’ love music &amp; radio.</p>
               </FAQEntry>
               <FAQEntry title="Our History">
+                <p>Radio Tasty was created, at long last, in early 2023.</p>
                 <p>
-                  Radio Tasty was created in 2023. We had a few odd broadcasts
-                  here and there as our dream&mdash;that of cornering our
-                  friends &amp; harnessing their musical passions into something
-                  bigger and more collective&mdash;quietly came to life.
+                  We had a few live broadcasts here and there while our dream
+                  (of cornering our friends &amp; harnessing their musical
+                  passions) quietly came to life.
                 </p>
                 <p>
-                  We mostly aired a back catalog of recorded DJ mixes from Tasty
-                  DJs and parties, recordings which still fill our airtime when
-                  no DJ is live. But our goal was always bigger: to play music{" "}
-                  <i>live</i> here, for eachother. Be <i>radio</i>.
+                  We mostly aired our back catalog of recorded DJ mixes from
+                  Tasty DJs and parties, recordings which still fill our airtime
+                  when no DJ is live. But our goal was always bigger: to play
+                  music <i>live</i> here, for eachother. Be <i>radio</i>.
                 </p>
                 <p>
                   In early 2025, we started regular live programming, and added
@@ -93,9 +93,10 @@ const AboutView = () => {
                   fast!
                 </p>
                 <p>
-                  We were born out of <a href="https://tastysf.org">TastySF</a>,
-                  a San Francisco-based music &amp; arts collective that started
-                  in 2005. More than a few (but by no means all) of our DJs come
+                  Radio Tasty was born out of{" "}
+                  <a href="https://tastysf.org">TastySF</a>, a San
+                  Francisco-based music &amp; arts collective that started in
+                  2005. More than a few (but by no means all) of our DJs come
                   from Tasty.
                 </p>
               </FAQEntry>

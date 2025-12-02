@@ -3,9 +3,6 @@ import PageHeader from "../components/PageHeader";
 import StreamPlayer from "../components/StreamPlayer";
 import "./Home.scss";
 
-const TASTY_STREAM_URL =
-  "https://listen.radiotasty.com/public/radio_tasty/embed?theme=dark";
-
 const HomeView = () => {
   return (
     <>
@@ -30,7 +27,7 @@ const HomeView = () => {
                 }}
                 elevation={0}
               >
-                <StreamPlayer streamUrl={TASTY_STREAM_URL} />
+                <StreamPlayer />
               </Paper>
 
               <Button

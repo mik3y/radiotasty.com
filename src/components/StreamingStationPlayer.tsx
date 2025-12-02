@@ -14,6 +14,9 @@ export interface StreamMetadata {
   title?: string;
   artist?: string;
   album?: string;
+  art?: string;
+  elapsed?: number;
+  duration?: number;
 }
 
 export interface StreamingStationPlayerState {
@@ -27,6 +30,7 @@ export interface StreamingStationPlayerHandle {
   start: () => void;
   stop: () => void;
   setVolume: (volume: number) => void;
+  getAnalyser: () => AnalyserNode | null;
 }
 
 export interface StreamingStationPlayerProps {
@@ -41,17 +45,70 @@ interface MetadataFetcher {
   stop: () => void;
 }
 
+interface AzuracastNowPlayingResponse {
+  now_playing?: {
+    song?: {
+      title?: string;
+      artist?: string;
+      album?: string;
+      art?: string;
+    };
+  };
+}
+
+const AZURACAST_POLL_INTERVAL_MS = 15000;
+
 const createAzuracastFetcher = (
-  _metadataUrl: string,
-  _onMetadata: (metadata: StreamMetadata) => void,
+  metadataUrl: string,
+  onMetadata: (metadata: StreamMetadata) => void,
 ): MetadataFetcher => {
-  // TODO: Implement Azuracast metadata fetching
+  let intervalId: ReturnType<typeof setInterval> | null = null;
+  let abortController: AbortController | null = null;
+
+  const fetchMetadata = async () => {
+    abortController = new AbortController();
+
+    try {
+      const response = await fetch(metadataUrl, {
+        signal: abortController.signal,
+      });
+
+      if (!response.ok) {
+        return;
+      }
+
+      const data: AzuracastNowPlayingResponse = await response.json();
+      const song = data.now_playing?.song;
+
+      if (song) {
+        onMetadata({
+          title: song.title,
+          artist: song.artist,
+          album: song.album,
+          art: song.art,
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") {
+        return;
+      }
+    }
+  };
+
   return {
     start: () => {
-      // TODO: Start polling/SSE for metadata
+      fetchMetadata();
+      intervalId = setInterval(fetchMetadata, AZURACAST_POLL_INTERVAL_MS);
     },
     stop: () => {
-      // TODO: Stop polling/SSE
+      if (intervalId !== null) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+      if (abortController) {
+        abortController.abort();
+        abortController = null;
+      }
     },
   };
 };
@@ -74,6 +131,9 @@ export const StreamingStationPlayer = forwardRef<
   StreamingStationPlayerProps
 >(({ playbackUrl, metadataUrl, metadataProvider, onChange }, ref) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const metadataFetcherRef = useRef<MetadataFetcher | null>(null);
   const stateRef = useRef<StreamingStationPlayerState>({
     status: "stopped",
@@ -100,12 +160,19 @@ export const StreamingStationPlayer = forwardRef<
   useEffect(() => {
     const audio = new Audio();
     audio.preload = "none";
+    audio.crossOrigin = "anonymous";
     audioRef.current = audio;
 
     return () => {
       audio.pause();
       audio.src = "";
       audioRef.current = null;
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+        audioContextRef.current = null;
+        analyserRef.current = null;
+        sourceRef.current = null;
+      }
     };
   }, []);
 
@@ -140,7 +207,27 @@ export const StreamingStationPlayer = forwardRef<
 
         updateState({ status: "loading" });
 
-        // TODO: Implement actual playback
+        // Initialize audio context and analyser on first play
+        if (!audioContextRef.current) {
+          const audioContext = new AudioContext();
+          const analyser = audioContext.createAnalyser();
+          analyser.fftSize = 256;
+          analyser.smoothingTimeConstant = 0.85;
+
+          const source = audioContext.createMediaElementSource(audio);
+          source.connect(analyser);
+          analyser.connect(audioContext.destination);
+
+          audioContextRef.current = audioContext;
+          analyserRef.current = analyser;
+          sourceRef.current = source;
+        }
+
+        // Resume audio context if suspended
+        if (audioContextRef.current.state === "suspended") {
+          audioContextRef.current.resume();
+        }
+
         audio
           .play()
           .then(() => {
@@ -169,6 +256,8 @@ export const StreamingStationPlayer = forwardRef<
         }
         updateState({ volume: clampedVolume });
       },
+
+      getAnalyser: () => analyserRef.current,
     }),
     [updateState],
   );

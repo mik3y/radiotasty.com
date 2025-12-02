@@ -2,6 +2,12 @@ body {
   color: #ffffff;
 }
 
+a {
+  color: inherit;
+  font-weight: bold;
+  text-decoration: underline dotted;
+}
+
 h1 {
   font-family: 'Oxanium', cursive;
   font-size: 4em;

@@ -68,9 +68,49 @@ const AboutView = () => {
               </Typography>
               <FAQEntry title="Our Mission">
                 <p>
-                  The mission of Radio Tasty is to create{" "}
-                  <b>musical discovery through human connection</b>, and to
-                  create <b>human connection through musical discovery</b>.
+                  The mission of Radio Tasty is to{" "}
+                  <b>create musical discovery through human connection</b>, and
+                  to <b>create human connection through musical discovery</b>.
+                </p>
+              </FAQEntry>
+              <FAQEntry title="Our History">
+                <p>
+                  Radio Tasty was created in 2023. We had a few odd broadcasts
+                  here and there.
+                </p>
+                <p>
+                  We started regular programming in early 2025. We are growing
+                  up fast!
+                </p>
+                <p>
+                  We were born out of <a href="https://tastysf.org">TastySF</a>,
+                  a San Francisco-based music and arts collective that started
+                  in 2005. More than a few (but by no means all) of our DJs come
+                  from Tasty.
+                </p>
+              </FAQEntry>
+              <FAQEntry title="Who is Radio Tasty?">
+                <p>
+                  <a href="https://soundcloud.com/wakebot">@wakebot</a> started
+                  the station with{" "}
+                  <a href="https://soundcloud.com/outofocontroller">
+                    @outofocontroller
+                  </a>
+                  , and they continue to cosplay as Radio Station Managers.{" "}
+                  <a href="https://soundcloud.com/alex01d">@Alexoid</a> created
+                  our first station IDs and{" "}
+                  <a href="https://soundcloud.com/newguybrian">@newguybrian</a>{" "}
+                  was our first regular DJ.
+                </p>
+                <p>
+                  <b>Our DJs</b> are the heart of Radio Tasty, and their taste
+                  and diversity are what makes this worth anything&mdash;worth
+                  trying to be anything&mdash;at all. They are music lovers to
+                  the core, and they are here to share this love with you.
+                </p>
+                <p>
+                  <b>Our listeners</b> share our love for music, and the joy of
+                  non-algorithmic, human-curated radio. We 💜 you.
                 </p>
               </FAQEntry>
             </Paper>

@@ -5,7 +5,6 @@ const PageHeader = () => {
   return (
     <div
       style={{
-        position: "sticky",
         top: 0,
         zIndex: 1100,
         backgroundColor: "transparent",

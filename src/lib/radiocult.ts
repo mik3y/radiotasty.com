@@ -66,8 +66,23 @@ export const getTipTapPlainText = (doc?: TipTapDocument): string => {
   return doc.content.map(extractText).join("").trim();
 };
 
-export interface ArtistsResponse {
-  artists: Artist[];
+export interface ScheduleItem {
+  id: string;
+  stationId: string;
+  title: string;
+  description?: TipTapDocument;
+  start: string;
+  end: string;
+  artistIds: string[];
+  timezone: string;
+  created: string;
+  modified: string;
+}
+
+interface ApiResponse<T> {
+  success: boolean;
+  error?: string;
+  [key: string]: unknown;
 }
 
 export interface RadioCultClientOptions {
@@ -89,9 +104,51 @@ export class RadioCultClient {
     });
   }
 
-  async getArtists(): Promise<ArtistsResponse> {
-    return this.client
-      .get(`api/station/${this.stationId}/artists`)
-      .json<ArtistsResponse>();
+  private async request<T>(response: Promise<ApiResponse<T> & T>): Promise<T> {
+    const data = await response;
+    if (!data.success) {
+      throw new Error(data.error || "Request failed");
+    }
+    return data;
+  }
+
+  async getArtists(): Promise<Artist[]> {
+    const data = await this.request(
+      this.client
+        .get(`api/station/${this.stationId}/artists`)
+        .json<ApiResponse<{ artists: Artist[] }> & { artists: Artist[] }>(),
+    );
+    return data.artists;
+  }
+
+  async getArtistBySlug(slug: string): Promise<Artist> {
+    const data = await this.request(
+      this.client
+        .get(`api/station/${this.stationId}/artists/${slug}`)
+        .json<ApiResponse<{ artist: Artist }> & { artist: Artist }>(),
+    );
+    return data.artist;
+  }
+
+  async getArtistSchedule(
+    artistId: string,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<ScheduleItem[]> {
+    const data = await this.request(
+      this.client
+        .get(`api/station/${this.stationId}/artists/${artistId}/schedule`, {
+          searchParams: {
+            startDate: startDate.toISOString(),
+            endDate: endDate.toISOString(),
+          },
+        })
+        .json<
+          ApiResponse<{ schedules: ScheduleItem[] }> & {
+            schedules: ScheduleItem[];
+          }
+        >(),
+    );
+    return data.schedules;
   }
 }

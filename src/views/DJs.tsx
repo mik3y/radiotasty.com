@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   Card,
+  CardActionArea,
   CardContent,
   CardMedia,
   CircularProgress,
@@ -10,6 +11,7 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
+import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 import PageHeader from "../components/PageHeader";
@@ -36,8 +38,8 @@ const DJsView = () => {
 
     client
       .getArtists()
-      .then((response) => {
-        setArtists(response.artists);
+      .then((artists) => {
+        setArtists(artists);
         setLoading(false);
       })
       .catch((err) => {
@@ -64,7 +66,7 @@ const DJsView = () => {
             WebkitTextFillColor: "transparent",
           }}
         >
-          DJs
+          The DJs of Radio Tasty
         </Typography>
 
         {loading && (
@@ -97,89 +99,97 @@ const DJsView = () => {
                     },
                   }}
                 >
-                  {artist.logo && (
-                    <CardMedia
-                      component="img"
-                      height="200"
-                      image={artist.logo["512x512"]}
-                      alt={artist.name}
-                      sx={{ objectFit: "cover" }}
-                    />
-                  )}
-                  <CardContent sx={{ textAlign: "center" }}>
-                    <Typography
-                      variant="h6"
-                      component="h2"
-                      sx={{
-                        fontWeight: 600,
-                        color: "#fff",
-                        mb: getTipTapPlainText(artist.description) ? 1 : 0,
-                      }}
-                    >
-                      {artist.name}
-                    </Typography>
-                    {getTipTapPlainText(artist.description) && (
+                  <CardActionArea
+                    component={Link}
+                    to="/djs/$slug"
+                    params={{ slug: artist.slug || artist.id }}
+                    sx={{ height: "100%" }}
+                  >
+                    {artist.logo && (
+                      <CardMedia
+                        component="img"
+                        height="200"
+                        image={artist.logo["512x512"]}
+                        alt={artist.name}
+                        sx={{ objectFit: "cover" }}
+                      />
+                    )}
+                    <CardContent sx={{ textAlign: "center" }}>
                       <Typography
-                        variant="body2"
+                        variant="h6"
+                        component="h2"
                         sx={{
-                          color: "rgba(255, 255, 255, 0.7)",
-                          display: "-webkit-box",
-                          WebkitLineClamp: 3,
-                          WebkitBoxOrient: "vertical",
-                          overflow: "hidden",
-                          mb: 1,
+                          fontWeight: 600,
+                          color: "#fff",
+                          mb: getTipTapPlainText(artist.description) ? 1 : 0,
                         }}
                       >
-                        {getTipTapPlainText(artist.description)}
+                        {artist.name}
                       </Typography>
-                    )}
-                    {(artist.socials.instagramHandle ||
-                      artist.socials.soundcloud) && (
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          gap: 1,
-                          mt: 1,
-                        }}
-                      >
-                        {artist.socials.instagramHandle && (
-                          <IconButton
-                            component="a"
-                            href={`https://instagram.com/${artist.socials.instagramHandle}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            size="small"
-                            sx={{
-                              color: "rgba(255, 255, 255, 0.7)",
-                              "&:hover": { color: "#E1306C" },
-                            }}
-                          >
-                            <FontAwesomeIcon icon={faInstagram} />
-                          </IconButton>
-                        )}
-                        {artist.socials.soundcloud && (
-                          <IconButton
-                            component="a"
-                            href={
-                              artist.socials.soundcloud.startsWith("http")
-                                ? artist.socials.soundcloud
-                                : `https://soundcloud.com/${artist.socials.soundcloud}`
-                            }
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            size="small"
-                            sx={{
-                              color: "rgba(255, 255, 255, 0.7)",
-                              "&:hover": { color: "#FF5500" },
-                            }}
-                          >
-                            <FontAwesomeIcon icon={faSoundcloud} />
-                          </IconButton>
-                        )}
-                      </Box>
-                    )}
-                  </CardContent>
+                      {getTipTapPlainText(artist.description) && (
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            color: "rgba(255, 255, 255, 0.7)",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 3,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            mb: 1,
+                          }}
+                        >
+                          {getTipTapPlainText(artist.description)}
+                        </Typography>
+                      )}
+                      {(artist.socials.instagramHandle ||
+                        artist.socials.soundcloud) && (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            gap: 1,
+                            mt: 1,
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {artist.socials.instagramHandle && (
+                            <IconButton
+                              component="a"
+                              href={`https://instagram.com/${artist.socials.instagramHandle}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              size="small"
+                              sx={{
+                                color: "rgba(255, 255, 255, 0.7)",
+                                "&:hover": { color: "#E1306C" },
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faInstagram} />
+                            </IconButton>
+                          )}
+                          {artist.socials.soundcloud && (
+                            <IconButton
+                              component="a"
+                              href={
+                                artist.socials.soundcloud.startsWith("http")
+                                  ? artist.socials.soundcloud
+                                  : `https://soundcloud.com/${artist.socials.soundcloud}`
+                              }
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              size="small"
+                              sx={{
+                                color: "rgba(255, 255, 255, 0.7)",
+                                "&:hover": { color: "#FF5500" },
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faSoundcloud} />
+                            </IconButton>
+                          )}
+                        </Box>
+                      )}
+                    </CardContent>
+                  </CardActionArea>
                 </Card>
               </Grid>
             ))}

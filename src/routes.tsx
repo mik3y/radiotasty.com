@@ -9,6 +9,7 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 import StreamPlayer from "./components/StreamPlayer";
 import AboutView from "./views/About";
+import DJsView from "./views/DJs";
 import HomeView from "./views/Home";
 import ScheduleView from "./views/Schedule";
 
@@ -53,6 +54,12 @@ export const indexRoute = createRoute({
   component: HomeView,
 });
 
+export const djsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/djs",
+  component: DJsView,
+});
+
 export const aboutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/about",
@@ -67,6 +74,7 @@ export const scheduleRoute = createRoute({
 
 export const routeTree = rootRoute.addChildren([
   indexRoute,
+  djsRoute,
   aboutRoute,
   scheduleRoute,
 ]);

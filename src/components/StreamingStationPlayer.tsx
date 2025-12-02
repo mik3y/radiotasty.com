@@ -212,7 +212,7 @@ export const StreamingStationPlayer = forwardRef<
           const audioContext = new AudioContext();
           const analyser = audioContext.createAnalyser();
           analyser.fftSize = 256;
-          analyser.smoothingTimeConstant = 0.85;
+          analyser.smoothingTimeConstant = 0.92;
 
           const source = audioContext.createMediaElementSource(audio);
           source.connect(analyser);

@@ -72,6 +72,7 @@ const AboutView = () => {
                   <b>create musical discovery through human connection</b>, and
                   to <b>create human connection through musical discovery</b>.
                 </p>
+                <p>We freakin’ love music &amp; radio.</p>
               </FAQEntry>
               <FAQEntry title="Our History">
                 <p>
@@ -84,7 +85,7 @@ const AboutView = () => {
                 </p>
                 <p>
                   We were born out of <a href="https://tastysf.org">TastySF</a>,
-                  a San Francisco-based music and arts collective that started
+                  a San Francisco-based music &amp; arts collective that started
                   in 2005. More than a few (but by no means all) of our DJs come
                   from Tasty.
                 </p>
@@ -93,7 +94,7 @@ const AboutView = () => {
                 <p>
                   <a href="https://soundcloud.com/wakebot">@wakebot</a> started
                   the station with{" "}
-                  <a href="https://soundcloud.com/outofocontroller">
+                  <a href="https://soundcloud.com/outofcontroller">
                     @outofocontroller
                   </a>
                   , and they continue to cosplay as Radio Station Managers.{" "}

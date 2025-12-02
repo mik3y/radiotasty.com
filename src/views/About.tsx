@@ -77,7 +77,9 @@ const AboutView = () => {
               <FAQEntry title="Our History">
                 <p>
                   Radio Tasty was created in 2023. We had a few odd broadcasts
-                  here and there.
+                  here and there as our dream&mdash;that of cornering our
+                  friends &amp; harnessing their musical passions into something
+                  bigger and more collective&mdash;quietly came to life.
                 </p>
                 <p>
                   We started regular programming in early 2025. We are growing

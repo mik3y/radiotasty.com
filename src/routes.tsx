@@ -1,20 +1,17 @@
 import { Box, Container, Paper } from "@mui/material";
 import {
-  Outlet,
   createRootRoute,
   createRoute,
   createRouter,
-  useRouterState,
+  Outlet,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+
 import StreamPlayer from "./components/StreamPlayer";
 import AboutView from "./views/About";
 import HomeView from "./views/Home";
 
 const RootLayout = () => {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isHomePage = pathname === "/";
-
   return (
     <>
       <Paper

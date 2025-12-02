@@ -1,19 +1,20 @@
 import {
-  type ReactNode,
   createContext,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
   useRef,
   useState,
 } from "react";
+
 import {
   type MetadataProviderType,
   type PlaybackStatus,
-  type StreamMetadata,
   StreamingStationPlayer,
   type StreamingStationPlayerHandle,
   type StreamingStationPlayerState,
+  type StreamMetadata,
 } from "../components/StreamingStationPlayer";
 
 // Poll more frequently when playing, less when idle

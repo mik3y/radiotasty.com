@@ -2,6 +2,7 @@ import "./App.scss";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { RouterProvider } from "@tanstack/react-router";
+
 import { type StationConfig, StreamProvider } from "./contexts/StreamContext";
 import { router } from "./routes";
 import { vaporwaveTheme } from "./theme/muiTheme";

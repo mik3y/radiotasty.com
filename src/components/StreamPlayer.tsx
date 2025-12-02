@@ -3,6 +3,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import { Box, IconButton, Slider, Stack, Typography } from "@mui/material";
+
 import { useStream } from "../contexts/StreamContext";
 import AudioVisualizer from "./AudioVisualizer";
 

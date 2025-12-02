@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { useEffect, useRef } from "react";
+
 import { useStream } from "../contexts/StreamContext";
 
 export interface AudioVisualizerProps {

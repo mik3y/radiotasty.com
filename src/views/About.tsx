@@ -93,8 +93,6 @@ const AboutView = () => {
                   many new DJs to the list. We are growing, and growing up,
                   fast!
                 </p>
-              </FAQEntry>
-              <FAQEntry title="Who is Radio Tasty?">
                 <p>
                   Radio Tasty was born out of{" "}
                   <a href="https://tastysf.org">Tasty</a>, a San Francisco-based
@@ -102,6 +100,8 @@ const AboutView = () => {
                   a few (but by no means all) of our DJs come from Tasty, and we
                   continue to share a strong connection.
                 </p>
+              </FAQEntry>
+              <FAQEntry title="Who is Radio Tasty?">
                 <p>
                   <a href="https://soundcloud.com/wakebot">@wakebot</a> started
                   the station with{" "}

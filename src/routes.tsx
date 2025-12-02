@@ -27,7 +27,7 @@ const RootLayout = () => {
       >
         <StreamPlayer fullWidth titlePrefix="" />
       </Paper>
-      <Box sx={{ minHeight: "100vh", pt: 8 }}>
+      <Box sx={{ minHeight: "100vh", pt: 8, pb: 8 }}>
         <Container
           maxWidth={false}
           sx={{ py: 0, position: "relative", zIndex: 1 }}

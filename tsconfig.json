@@ -22,6 +22,6 @@
 
     "types": ["node"]
   },
-  "include": ["js"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

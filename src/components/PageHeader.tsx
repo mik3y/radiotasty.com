@@ -56,6 +56,24 @@ const PageHeader = () => {
         </Button>
         <Button
           component={Link}
+          to="/schedule"
+          color="inherit"
+          sx={{
+            color: "rgba(255, 255, 255, 0.7)",
+            "&:hover": {
+              color: "rgba(255, 255, 255, 0.9)",
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
+            },
+            "&.active": {
+              color: "rgba(255, 255, 255, 1)",
+              backgroundColor: "rgba(255, 255, 255, 0.15)",
+            },
+          }}
+        >
+          Schedule
+        </Button>
+        <Button
+          component={Link}
           to="/about"
           color="inherit"
           sx={{

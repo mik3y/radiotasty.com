@@ -1,5 +1,6 @@
-import { Box, Button, Grid, Paper, Typography } from "@mui/material";
+import { Box, Grid, Paper } from "@mui/material";
 
+import GradientButton from "../components/GradientButton";
 import PageHeader from "../components/PageHeader";
 import StreamPlayer from "../components/StreamPlayer";
 import "./Home.scss";
@@ -31,40 +32,9 @@ const HomeView = () => {
                 <StreamPlayer />
               </Paper>
 
-              <Button
-                variant="contained"
-                href="https://mailchi.mp/a0216ed0e271/newsletter-signup"
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={{
-                  px: 4,
-                  py: 1.5,
-                  fontSize: "1.1rem",
-                  background:
-                    "linear-gradient(45deg, #ff006e 30%, #8338ec 90%)",
-                  "&:hover": {
-                    background:
-                      "linear-gradient(45deg, #c70039 30%, #5e1a9c 90%)",
-                  },
-                }}
-                endIcon={
-                  <Typography
-                    component="span"
-                    sx={{
-                      animation: "pulse 2s infinite",
-                      "@keyframes pulse": {
-                        "0%": { transform: "translateX(0)" },
-                        "50%": { transform: "translateX(4px)" },
-                        "100%": { transform: "translateX(0)" },
-                      },
-                    }}
-                  >
-                    →
-                  </Typography>
-                }
-              >
+              <GradientButton href="https://mailchi.mp/a0216ed0e271/newsletter-signup">
                 Be the tastiest: Join our mailing list
-              </Button>
+              </GradientButton>
             </Box>
           </Grid>
         </Grid>

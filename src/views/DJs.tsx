@@ -14,6 +14,7 @@ import {
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
+import GradientButton from "../components/GradientButton";
 import PageHeader from "../components/PageHeader";
 import {
   RADIOCULT_API_PUBLISHABLE_KEY,
@@ -279,22 +280,9 @@ const DJsView = () => {
           ))}
 
         <Box sx={{ mt: 6, textAlign: "center" }}>
-          <Typography
-            component={Link}
-            to="/djs/join"
-            sx={{
-              color: "rgba(255, 255, 255, 0.7)",
-              fontSize: "1.1rem",
-              textDecoration: "none",
-              transition: "color 0.2s",
-              fontWeight: 600,
-              "&:hover": {
-                color: "#ff006e",
-              },
-            }}
-          >
-            Want to join us? Become the next Radio Tasty DJ &raquo;
-          </Typography>
+          <GradientButton to="/djs/join">
+            Want to join us? Become the next Radio Tasty DJ
+          </GradientButton>
         </Box>
       </Box>
     </>

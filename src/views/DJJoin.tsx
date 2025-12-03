@@ -1,5 +1,6 @@
 import { Box, Paper, Typography } from "@mui/material";
 
+import GradientButton from "../components/GradientButton";
 import PageHeader from "../components/PageHeader";
 
 const DJJoinView = () => {
@@ -67,41 +68,9 @@ const DJJoinView = () => {
             </p>
             <p>Ready? Let's go!</p>
             <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-              <a
-                href="https://forms.gle/zNidKwNVo9F9otJg7"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  textDecoration: "none",
-                }}
-              >
-                <Box
-                  sx={{
-                    px: 5,
-                    py: 2,
-                    borderRadius: 2,
-                    background:
-                      "linear-gradient(90deg, #ff006e 40%, #8338ec 90%)",
-                    color: "#fff",
-                    fontWeight: 700,
-                    fontSize: "1.25rem",
-                    boxShadow: "0 4px 16px rgba(131,56,236,0.2)",
-                    transition:
-                      "background 0.2s, box-shadow 0.2s, transform 0.2s",
-                    textAlign: "center",
-                    letterSpacing: 1,
-                    "&:hover": {
-                      background:
-                        "linear-gradient(90deg, #8338ec 40%, #ff006e 90%)",
-                      boxShadow: "0 8px 28px rgba(255,0,110,0.25)",
-                      transform: "translateY(-3px) scale(1.02)",
-                    },
-                    cursor: "pointer",
-                  }}
-                >
-                  Apply Now
-                </Box>
-              </a>
+              <GradientButton href="https://forms.gle/zNidKwNVo9F9otJg7">
+                Apply Now
+              </GradientButton>
             </Box>
           </Typography>
         </Paper>

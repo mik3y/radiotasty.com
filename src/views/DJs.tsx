@@ -210,78 +210,73 @@ const DJsView = () => {
           </Typography>
         )}
 
-        {!loading && !error && (
-          <>
-            {FEATURE_RECURRING_DJS ? (
-              <>
-                {recurringDJs.length > 0 && (
-                  <Grid container spacing={3} justifyContent="center">
-                    {recurringDJs.map((artist) => (
-                      <Grid key={artist.id} size={{ xs: 12, sm: 6, md: 4 }}>
-                        <DJCard artist={artist} isLarge />
-                      </Grid>
-                    ))}
-                  </Grid>
-                )}
-
-                {ensembleDJs.length > 0 && (
-                  <>
-                    {FEATURE_RECURRING_DJS && (
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          mt: 6,
-                          mb: 3,
-                          textAlign: "center",
-                          color: "rgba(255, 255, 255, 0.6)",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Ensemble Players
-                      </Typography>
-                    )}
-                    <Grid container spacing={3} justifyContent="center">
-                      {ensembleDJs.map((artist) => (
-                        <Grid
-                          key={artist.id}
-                          size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
-                        >
-                          <DJCard artist={artist} />
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </>
-                )}
-              </>
-            ) : (
-              <>
-                {FEATURE_RECURRING_DJS && (
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      mb: 3,
-                      textAlign: "center",
-                      color: "rgba(255, 255, 255, 0.6)",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Ensemble Players
-                  </Typography>
-                )}
+        {!loading &&
+          !error &&
+          (FEATURE_RECURRING_DJS ? (
+            <>
+              {recurringDJs.length > 0 && (
                 <Grid container spacing={3} justifyContent="center">
-                  {[...recurringDJs, ...ensembleDJs].map((artist) => (
-                    <Grid
-                      key={artist.id}
-                      size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
-                    >
-                      <DJCard artist={artist} />
+                  {recurringDJs.map((artist) => (
+                    <Grid key={artist.id} size={{ xs: 12, sm: 6, md: 4 }}>
+                      <DJCard artist={artist} isLarge />
                     </Grid>
                   ))}
                 </Grid>
-              </>
-            )}
-          </>
-        )}
+              )}
+
+              {ensembleDJs.length > 0 && (
+                <>
+                  {FEATURE_RECURRING_DJS && (
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        mt: 6,
+                        mb: 3,
+                        textAlign: "center",
+                        color: "rgba(255, 255, 255, 0.6)",
+                        fontWeight: 500,
+                      }}
+                    >
+                      Ensemble Players
+                    </Typography>
+                  )}
+                  <Grid container spacing={3} justifyContent="center">
+                    {ensembleDJs.map((artist) => (
+                      <Grid
+                        key={artist.id}
+                        size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                      >
+                        <DJCard artist={artist} />
+                      </Grid>
+                    ))}
+                  </Grid>
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              {FEATURE_RECURRING_DJS && (
+                <Typography
+                  variant="h5"
+                  sx={{
+                    mb: 3,
+                    textAlign: "center",
+                    color: "rgba(255, 255, 255, 0.6)",
+                    fontWeight: 500,
+                  }}
+                >
+                  Ensemble Players
+                </Typography>
+              )}
+              <Grid container spacing={3} justifyContent="center">
+                {[...recurringDJs, ...ensembleDJs].map((artist) => (
+                  <Grid key={artist.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                    <DJCard artist={artist} />
+                  </Grid>
+                ))}
+              </Grid>
+            </>
+          ))}
 
         <Box sx={{ mt: 6, textAlign: "center" }}>
           <Typography

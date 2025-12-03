@@ -56,7 +56,7 @@ export const getTipTapPlainText = (doc?: TipTapDocument): string => {
       const text = node.content.map(extractText).join("");
       // Add newlines after block-level elements
       if (node.type === "paragraph" || node.type === "heading") {
-        return text + "\n";
+        return `${text}\n`;
       }
       return text;
     }
@@ -79,7 +79,7 @@ export interface ScheduleItem {
   modified: string;
 }
 
-interface ApiResponse<T> {
+interface ApiResponse<_T> {
   success: boolean;
   error?: string;
   [key: string]: unknown;

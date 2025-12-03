@@ -28,6 +28,7 @@ import {
 
 const FEATURE_RECURRING_DJS = false;
 const RECURRING_DJ_SLUGS = new Set(["herbie-monncuso", "wakebot"]);
+const HIDDEN_TAG = "HIDDEN FROM DJS PAGE";
 
 const isRecurringDJ = (artist: Artist): boolean => {
   const slug = artist.slug || artist.id;
@@ -173,8 +174,11 @@ const DJsView = () => {
       });
   }, []);
 
-  const recurringDJs = artists.filter(isRecurringDJ);
-  const ensembleDJs = artists.filter((artist) => !isRecurringDJ(artist));
+  const visibleArtists = artists.filter(
+    (artist) => !artist.tags.includes(HIDDEN_TAG),
+  );
+  const recurringDJs = visibleArtists.filter(isRecurringDJ);
+  const ensembleDJs = visibleArtists.filter((artist) => !isRecurringDJ(artist));
 
   return (
     <>

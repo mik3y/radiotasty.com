@@ -226,18 +226,20 @@ const DJsView = () => {
 
                 {ensembleDJs.length > 0 && (
                   <>
-                    <Typography
-                      variant="h5"
-                      sx={{
-                        mt: 6,
-                        mb: 3,
-                        textAlign: "center",
-                        color: "rgba(255, 255, 255, 0.6)",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Ensemble Players
-                    </Typography>
+                    {FEATURE_RECURRING_DJS && (
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          mt: 6,
+                          mb: 3,
+                          textAlign: "center",
+                          color: "rgba(255, 255, 255, 0.6)",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Ensemble Players
+                      </Typography>
+                    )}
                     <Grid container spacing={3} justifyContent="center">
                       {ensembleDJs.map((artist) => (
                         <Grid
@@ -253,17 +255,19 @@ const DJsView = () => {
               </>
             ) : (
               <>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    mb: 3,
-                    textAlign: "center",
-                    color: "rgba(255, 255, 255, 0.6)",
-                    fontWeight: 500,
-                  }}
-                >
-                  Ensemble Players
-                </Typography>
+                {FEATURE_RECURRING_DJS && (
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      mb: 3,
+                      textAlign: "center",
+                      color: "rgba(255, 255, 255, 0.6)",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Ensemble Players
+                  </Typography>
+                )}
                 <Grid container spacing={3} justifyContent="center">
                   {[...recurringDJs, ...ensembleDJs].map((artist) => (
                     <Grid

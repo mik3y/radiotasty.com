@@ -91,7 +91,7 @@ const DJCard = ({ artist, isLarge = false }: DJCardProps) => (
               mb: 1,
             }}
           >
-            {getTipTapPlainText(artist.description)}
+            {getTipTapPlainText(artist.description)?.split("\n")[0]}
           </Typography>
         )}
         {(artist.socials.instagramHandle || artist.socials.soundcloud) && (

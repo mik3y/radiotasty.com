@@ -193,7 +193,7 @@ const DJsView = () => {
             WebkitTextFillColor: "transparent",
           }}
         >
-          The DJs of Radio Tasty
+          Our DJs
         </Typography>
 
         {loading && (

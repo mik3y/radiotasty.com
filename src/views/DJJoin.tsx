@@ -44,8 +44,9 @@ const DJJoinView = () => {
               you.
             </p>
             <p>
-              Don't be intimated, we want this to be easy and <b>fun</b>. Here's
-              how it works:
+              <b>You do not need be a pro or have any experience!</b> All you
+              have to be is a music lover; we'll get you up to speed on
+              everything else. Here's how it works:
               <ul>
                 <li>Fill out the brief survey below to kick things off.</li>
                 <li>
@@ -58,6 +59,7 @@ const DJJoinView = () => {
                 </li>
               </ul>
             </p>
+            <p>You can do it!</p>
             <p>
               We are happy to have new regular/recurring shows, and for those
               that can't commit to a schedule we're also happy to bring on

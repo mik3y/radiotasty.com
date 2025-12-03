@@ -25,6 +25,7 @@ import {
   RadioCultClient,
 } from "../lib/radiocult";
 
+const FEATURE_RECURRING_DJS = false;
 const RECURRING_DJ_SLUGS = new Set(["herbie-monncuso", "wakebot"]);
 
 const isRecurringDJ = (artist: Artist): boolean => {
@@ -211,22 +212,50 @@ const DJsView = () => {
 
         {!loading && !error && (
           <>
-            {recurringDJs.length > 0 && (
-              <Grid container spacing={3} justifyContent="center">
-                {recurringDJs.map((artist) => (
-                  <Grid key={artist.id} size={{ xs: 12, sm: 6, md: 4 }}>
-                    <DJCard artist={artist} isLarge />
+            {FEATURE_RECURRING_DJS ? (
+              <>
+                {recurringDJs.length > 0 && (
+                  <Grid container spacing={3} justifyContent="center">
+                    {recurringDJs.map((artist) => (
+                      <Grid key={artist.id} size={{ xs: 12, sm: 6, md: 4 }}>
+                        <DJCard artist={artist} isLarge />
+                      </Grid>
+                    ))}
                   </Grid>
-                ))}
-              </Grid>
-            )}
+                )}
 
-            {ensembleDJs.length > 0 && (
+                {ensembleDJs.length > 0 && (
+                  <>
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        mt: 6,
+                        mb: 3,
+                        textAlign: "center",
+                        color: "rgba(255, 255, 255, 0.6)",
+                        fontWeight: 500,
+                      }}
+                    >
+                      Ensemble Players
+                    </Typography>
+                    <Grid container spacing={3} justifyContent="center">
+                      {ensembleDJs.map((artist) => (
+                        <Grid
+                          key={artist.id}
+                          size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                        >
+                          <DJCard artist={artist} />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </>
+                )}
+              </>
+            ) : (
               <>
                 <Typography
                   variant="h5"
                   sx={{
-                    mt: 6,
                     mb: 3,
                     textAlign: "center",
                     color: "rgba(255, 255, 255, 0.6)",
@@ -236,7 +265,7 @@ const DJsView = () => {
                   Ensemble Players
                 </Typography>
                 <Grid container spacing={3} justifyContent="center">
-                  {ensembleDJs.map((artist) => (
+                  {[...recurringDJs, ...ensembleDJs].map((artist) => (
                     <Grid
                       key={artist.id}
                       size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
@@ -265,7 +294,7 @@ const DJsView = () => {
               },
             }}
           >
-            Got what it takes? Become the next Radio Tasty DJ &raquo;
+            Want to join us? Become the next Radio Tasty DJ &raquo;
           </Typography>
         </Box>
       </Box>

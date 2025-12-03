@@ -29,6 +29,11 @@ import {
 } from "../lib/radiocult";
 import { djDetailRoute } from "../routes";
 
+const EXCLUDE_REPLAYS = true;
+
+const isReplay = (show: ScheduleItem): boolean =>
+  show.title.toLowerCase().endsWith("replay");
+
 const formatShowDateTime = (start: string, end: string): string => {
   const startTime = dayjs(start);
   const endTime = dayjs(end);
@@ -72,6 +77,9 @@ const DJDetailView = () => {
         const past: ScheduleItem[] = [];
 
         for (const show of schedules) {
+          if (EXCLUDE_REPLAYS && isReplay(show)) {
+            continue;
+          }
           if (new Date(show.start) > now) {
             upcoming.push(show);
           } else {

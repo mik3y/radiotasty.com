@@ -43,7 +43,7 @@ const ScheduleView = () => {
               >
                 <iframe
                   title="Radio Tasty schedule"
-                  src="https://app.radiocult.fm/embed/schedule/radio-tasty-72035172/weekly?theme=dusk&primaryColor=%23579DFF&corners=rounded"
+                  src="https://app.radiocult.fm/embed/schedule/radio-tasty-72035172/show-list?theme=dusk&primaryColor=%23579DFF&corners=rounded"
                   width="100%"
                   height="500px"
                   scrolling="no"

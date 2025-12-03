@@ -103,15 +103,19 @@ const AboutView = () => {
               </FAQEntry>
               <FAQEntry title="Who is Radio Tasty?">
                 <p>
-                  <a href="https://soundcloud.com/wakebot">@wakebot</a> started
-                  the station with{" "}
-                  <a href="https://soundcloud.com/outofcontroller">
-                    @outofcontroller
-                  </a>
+                  <Link to="/djs/$slug" params={{ slug: "wakebot" }}>
+                    @wakebot
+                  </Link>{" "}
+                  started the station with{" "}
+                  <Link to="/djs/$slug" params={{ slug: "herbie-monncuso" }}>
+                    @HerbieMonncuso
+                  </Link>
                   , and they continue to cosplay as Radio Station Managers.{" "}
                   <a href="https://soundcloud.com/alex01d">@Alexoid</a> created
                   our first station IDs and{" "}
-                  <a href="https://soundcloud.com/newguybrian">@newguybrian</a>{" "}
+                  <Link to="/djs/$slug" params={{ slug: "newguybrian" }}>
+                    @newguybrian
+                  </Link>{" "}
                   was our first regular DJ.
                 </p>
                 <p>

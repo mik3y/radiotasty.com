@@ -27,7 +27,17 @@ import {
 } from "../lib/radiocult";
 
 const FEATURE_RECURRING_DJS = false;
-const RECURRING_DJ_SLUGS = new Set(["herbie-monncuso", "wakebot"]);
+const RECURRING_DJ_SLUGS = new Set([
+  "herbie-monncuso",
+  "wakebot",
+  "he-panky",
+  "justin-general",
+  "technicolourbeats",
+  "brother-kris",
+  "k-town",
+  "newguybrian",
+  "cobo",
+]);
 const HIDDEN_TAG = "HIDDEN FROM DJS PAGE";
 
 const isRecurringDJ = (artist: Artist): boolean => {

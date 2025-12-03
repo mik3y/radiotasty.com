@@ -73,7 +73,7 @@ const AboutView = () => {
                   <b>create musical discovery through human connection</b>, and
                   to <b>create human connection through musical discovery</b>.
                 </p>
-                <p>We freakin’ love music &amp; radio.</p>
+                <p>We freakin’ love music and radio.</p>
               </FAQEntry>
               <FAQEntry title="Our History">
                 <p>Radio Tasty was created, at long last, in early 2023.</p>
